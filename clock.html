@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kindle时钟</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: white;
+            color: black;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .time-container {
+            font-size: 80px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: baseline;
+        }
+        
+        .time-separator {
+            margin: 0 10px;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        .date-container {
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+        
+        .weekday {
+            margin-left: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            .time-container {
+                font-size: 60px;
+            }
+            .date-container {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="time-container">
+        <span id="hours">00</span>
+        <span class="time-separator">:</span>
+        <span id="minutes">00</span>
+        <span class="time-separator">:</span>
+        <span id="seconds">00</span>
+    </div>
+    
+    <div class="date-container">
+        <span id="year">2024</span>年
+        <span id="month">01</span>月
+        <span id="day">01</span>日
+        <span class="weekday" id="weekday">星期一</span>
+    </div>
+    
+    <script>
+        function updateClock() {
+            const now = new Date();
+            
+            // 更新时间
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+            
+            // 更新日期
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            
+            document.getElementById('year').textContent = year;
+            document.getElementById('month').textContent = month;
+            document.getElementById('day').textContent = day;
+            
+            // 更新星期
+            const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+            document.getElementById('weekday').textContent = weekdays[now.getDay()];
+        }
+        
+        // 初始化时钟
+        updateClock();
+        
+        // 每秒更新一次
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>
